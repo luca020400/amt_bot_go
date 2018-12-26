@@ -146,7 +146,7 @@ func getKey() string {
 		log.Panic(err)
 	}
 
-	return strings.Trim(string(dat), "\n")
+	return strings.TrimSuffix(string(dat), "\n")
 }
 
 func main() {
@@ -167,9 +167,9 @@ func main() {
 			continue
 		}
 
-		var message string
-		stopRegex, _ := regexp.Compile("\\d{4}")
-		lineRegex, _ := regexp.Compile("[A-Z0-9]{1,3}")
+		message := "Codice fermata o linea non valida"
+		stopRegex := regexp.MustCompile("^\\d{4}$")
+		lineRegex := regexp.MustCompile("^[A-Z0-9]{1,3}$")
 
 		if stopRegex.MatchString(update.Message.Text) {
 			message = getStopMessage(update.Message.Text)
