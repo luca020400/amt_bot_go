@@ -26,14 +26,15 @@ var (
 		},
 	}
 
-	stopTemplate = `{{$len := len .Stops}}{{if gt $len 0}}Fermata: {{.Name}}
-{{range $index, $stopData := .Stops}}
+	stopTemplate = `{{if .Name}}{{$len := len .Stops}}Fermata: {{.Name}}
+{{if gt $len 0}}{{range $index, $stopData := .Stops}}
 Numero Autobus: {{$stopData.Line}}
 Direzione: {{$stopData.Dest}}
 Orario di arrivo: {{$stopData.Time}}
 Tempo rimanente: {{$stopData.ETA}}{{if lt (plus1 $index) $len}}
 {{end}}
-{{end}}{{else}}Fermata non esistente{{end}}`
+{{end}}{{else}}
+Nessun autobus in arrivo{{end}}{{else}}Fermata non esistente{{end}}`
 	lineTemplate = `{{$len := len .Lines}}{{if gt $len 0}}{{range $lineData := .Lines}}
 {{$lineData.Direction}}
 {{$len := len $lineData.Times}}{{range $index, $time := $lineData.Times}}{{$time}}{{if lt (plus1 $index) $len}}, {{end}}{{end}}
